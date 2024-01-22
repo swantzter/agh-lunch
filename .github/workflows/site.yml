@@ -11,7 +11,7 @@ defaults:
     shell: bash
 
 jobs:
-  docs:
+  github-pages:
     runs-on: ubuntu-latest
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
@@ -38,14 +38,12 @@ jobs:
       - run: npm run scrape
       - name: Fix permissions
         run: |
-          chmod -c -R +rX "dist/" | while read line; do
+          chmod -c -R +rX "_site/" | while read line; do
             echo "::warning title=Invalid file permissions automatically fixed::$line"
           done
-      - run: ls && ls dist
+      - run: ls && ls _site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

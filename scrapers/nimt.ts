@@ -21,7 +21,7 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
   const menu = $('h4:contains(Lunchmat)').parent().parent().html()
   if (menu == null) throw new DataError('Could not find menu element', res.url, body)
 
-  await writeFile(path.join(__dirname, '../dist/assets', 'nimt.html'), menu, 'utf-8')
+  await writeFile(path.join(__dirname, '../_site/assets', 'nimt.html'), menu, 'utf-8')
 
   return [{
     id: 'nimt',

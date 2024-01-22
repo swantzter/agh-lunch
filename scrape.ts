@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import { parseArgs } from 'node:util'
 import { type RestaurantInfo } from './helpers'
 
-const manifestPath = path.join(__dirname, 'dist/restaurants.json')
+const manifestPath = path.join(__dirname, '_site/restaurants.json')
 
 async function run () {
   const args = parseArgs({

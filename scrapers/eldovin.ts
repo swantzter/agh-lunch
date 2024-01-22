@@ -32,8 +32,8 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
     current.push($$.html())
   })
 
-  await writeFile(path.join(__dirname, '../dist/assets', 'eldovin-storgatan.html'), storgatan.join('\n'), 'utf-8')
-  await writeFile(path.join(__dirname, '../dist/assets', 'eldovin-heimdallgatan.html'), heimdall.join('\n'), 'utf-8')
+  await writeFile(path.join(__dirname, '../_site/assets', 'eldovin-storgatan.html'), storgatan.join('\n'), 'utf-8')
+  await writeFile(path.join(__dirname, '../_site/assets', 'eldovin-heimdallgatan.html'), heimdall.join('\n'), 'utf-8')
 
   const updatedAt = new Date()
   return [

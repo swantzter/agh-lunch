@@ -45,7 +45,7 @@ export function getUserAgent () {
 }
 
 export async function saveFile (res: Response, name: string) {
-  const ws = createWriteStream(path.join(__dirname, 'dist/assets', name), { flags: 'w' })
+  const ws = createWriteStream(path.join(__dirname, '_site/assets', name), { flags: 'w' })
   if (res.body == null) throw new TypeError('Body is missing from response')
   await finished(Readable.fromWeb(res.body).pipe(ws))
 }
