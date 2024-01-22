@@ -36,6 +36,7 @@ jobs:
         with:
           static_site_generator: custom
       - run: npm run scrape
+      - run: ls && ls dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
