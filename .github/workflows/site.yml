@@ -36,6 +36,11 @@ jobs:
         with:
           static_site_generator: custom
       - run: npm run scrape
+      - name: Fix permissions
+        run: |
+          chmod -c -R +rX "dist/" | while read line; do
+            echo "::warning title=Invalid file permissions automatically fixed::$line"
+          done
       - run: ls && ls dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
