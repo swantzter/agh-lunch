@@ -30,24 +30,24 @@ async function run () {
 
   for (const scraper of scraperFiles) {
     console.log(scraper)
-    const mod = await import(path.join(__dirname, 'scrapers', scraper))
-
-    restaurants.push(...(await mod.default() ?? []) as RestaurantInfo[])
-  }
-
-  if (args.values.scraper != null && args.values.scraper.length > 0) {
     try {
-      const prevManifest: RestaurantInfo[] = JSON.parse(await readFile(manifestPath, 'utf-8'))
+      const mod = await import(path.join(__dirname, 'scrapers', scraper))
 
-      for (const restaurant of prevManifest) {
-        if (restaurants.find(r => r.id === restaurant.id) == null) {
-          restaurants.push(restaurant)
-        }
-      }
-    } catch {}
+      restaurants.push(...(await mod.default() ?? []) as RestaurantInfo[])
+    } catch (err) {
+      console.error('Failed to run scraper', err)
+    }
   }
 
-  console.log(restaurants)
+  try {
+    const prevManifest: RestaurantInfo[] = JSON.parse(await readFile(manifestPath, 'utf-8'))
+
+    for (const restaurant of prevManifest) {
+      if (restaurants.find(r => r.id === restaurant.id) == null) {
+        restaurants.push(restaurant)
+      }
+    }
+  } catch {}
 
   await writeFile(manifestPath, JSON.stringify(restaurants, null, 2), 'utf-8')
 }

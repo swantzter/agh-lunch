@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, type RestaurantInfo, getUserAgent } from '../helpers'
+import { DataError, FetchError, type RestaurantInfo, getUserAgent, saveHtml } from '../helpers'
 import { fetch } from 'undici'
 import { writeFile } from 'node:fs/promises'
 import * as path from 'node:path'
@@ -21,7 +21,7 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
   const menu = $('h4:contains(Lunchmat)').parent().parent().html()
   if (menu == null) throw new DataError('Could not find menu element', res.url, body)
 
-  await writeFile(path.join(__dirname, '../_site/assets', 'nimt.html'), menu, 'utf-8')
+  await saveHtml(menu, 'nimt.html')
 
   return [{
     id: 'nimt',

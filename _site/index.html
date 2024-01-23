@@ -3,9 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+    *,::after,::before{box-sizing:border-box}:root{-moz-tab-size:4;tab-size:4}html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji'}hr{height:0;color:inherit}abbr[title]{text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}::-moz-focus-inner{border-style:none;padding:0}:-moz-focusring{outline:1px dotted ButtonText}:-moz-ui-invalid{box-shadow:none}legend{padding:0}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}
+  </style>
+  <link rel="stylesheet" href="style.css">
   <title>Lunch i Ängelholm</title>
 </head>
 <body>
+  <div class="container" v-scope @vue:mounted="mounted()">
+    <nav>
+      <a @click="autoPlay = !autoPlay">
+        <div v-if="autoPlay" class="progress" :style="{ '--progress': switchProgress }"></div>
+        <span>{{ autoPlay ? 'Pausa' : 'Autoplay' }}</span>
+      </a>
 
+      <a
+        v-for="restaurant of menuRestaurants"
+        :key="restaurant.id"
+        :class="{ selected: currentRestaurantId === restaurant.id }"
+        @click="currentRestaurantId = restaurant.id; autoPlay = false"
+      >
+        <span>{{ restaurant.name }}</span>
+        <time :datetime="restaurant.updatedAt">{{ formatDate(restaurant.updatedAt) }}</time>
+      </a>
+
+      <a
+        v-for="restaurant of listRestaurants"
+        :key="restaurant.id"
+        class="disabled"
+        aria-disabled="true"
+      >
+        <span>{{ restaurant.name }}</span>
+        <span class="small">meny saknas</span>
+      </a>
+    </nav>
+    <main v-if="currentRestaurant != null" :style="{ '--files': currentRestaurant.files.length || 1 }">
+      <div v-for="file of currentRestaurant.files" :key="file.src">
+        <img v-if="file.type === 'image'" :src="file.src">
+        <iframe v-else-if="file.type === 'html'" :src="file.src" credentialless="true" referrerpolicy="no-referrer" sandbox></iframe>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { createApp } from 'https://unpkg.com/petite-vue?module'
+
+    const dateFormatter = new Intl.RelativeTimeFormat(['sv-SE', 'sv', 'en-SE', 'en-GB', 'en'], { style: 'short', numeric: 'auto' })
+    const autoplayTime = 20_000
+    const fetchTime = 1000 * 60 * 60 // 1h
+
+    createApp({
+      now: Date.now(),
+      lastChange: -Infinity,
+      lastFetch: -Infinity,
+      autoPlay: true,
+
+      ongoingFetch: null,
+      currentRestaurantId: null,
+      restaurants: [],
+
+      get menuRestaurants () {
+        return this.restaurants.filter(r => r.files != null && r.files.length > 0)
+      },
+      get listRestaurants () {
+        return this.restaurants.filter(r => r.files == null || r.files.length === 0)
+      },
+      get currentRestaurant () {
+        return this.restaurants.find(r => r.id === this.currentRestaurantId)
+      },
+      get switchProgress () {
+        return `${Math.round((1 - (Math.abs(this.now - this.lastChange) / autoplayTime)) * 100)}%`
+      },
+
+      mounted () {
+        this.fetchRestaurants()
+        this.startTimers()
+      },
+
+      startTimers () {
+        setInterval(() => {
+          // This makes displayed dates and such update
+          this.now = Date.now()
+
+          // Change the currently displayed menu on an interval
+          if (
+            Math.abs(this.now - this.lastChange) > autoplayTime &&
+            this.menuRestaurants.length > 0 &&
+            this.autoPlay
+          ) {
+            this.nextRestaurant()
+          }
+
+          if (Math.abs(this.now - this.lastChange) > fetchTime) {
+            this.fetchRestaurants()
+          }
+        }, 1_000)
+      },
+      async fetchRestaurants () {
+        if (this.ongoingFetch) return
+        try {
+          this.ongoingFetch = fetch('/restaurants.json', { headers: { accept: 'application/json' } })
+          const res = await this.ongoingFetch
+          if (!res.ok) console.error('Failed to fetch restaurants manifest')
+          const restaurants = await res.json()
+          restaurants.sort((a, b) => a.name.localeCompare(b.name))
+
+          this.restaurants = restaurants
+          this.lastFetch = Date.now()
+
+          if (this.autoPlay || this.restaurants.find(r => r.id === this.currentRestaurantId) == null) {
+            this.nextRestaurant()
+          }
+        } finally {
+          this.ongoingFetch = null
+        }
+      },
+      nextRestaurant () {
+        const currIdx = this.menuRestaurants.findIndex(r => r.id === this.currentRestaurantId)
+        if (currIdx === -1 || currIdx >= this.menuRestaurants.length - 1) {
+          this.currentRestaurantId = this.menuRestaurants[0].id
+        } else {
+          this.currentRestaurantId = this.menuRestaurants[currIdx + 1].id
+        }
+        this.lastChange = Date.now()
+      },
+
+      formatDate (date) {
+        let diff = (new Date(date).getTime() - this.now) / 1000
+        if (Math.abs(diff) < 60) return dateFormatter.format(Math.round(diff), 'second')
+        diff = diff / 60
+        if (Math.abs(diff) < 60) return dateFormatter.format(Math.round(diff), 'minute')
+        diff = diff / 60
+        if (Math.abs(diff) < 60) return dateFormatter.format(Math.round(diff), 'hour')
+        diff = diff / 24
+        return dateFormatter.format(Math.round(diff), 'day')
+      }
+    }).mount()
+  </script>
 </body>
 </html>

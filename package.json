@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "pdf-to-png-converter": "^3.1.0",
     "undici": "^6.4.0"
   }
 }

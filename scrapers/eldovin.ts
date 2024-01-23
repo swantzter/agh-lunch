@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { FetchError, type RestaurantInfo, getUserAgent } from '../helpers'
+import { FetchError, type RestaurantInfo, getUserAgent, saveHtml } from '../helpers'
 import { fetch } from 'undici'
 import { writeFile } from 'node:fs/promises'
 import * as path from 'node:path'
@@ -32,8 +32,8 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
     current.push($$.html())
   })
 
-  await writeFile(path.join(__dirname, '../_site/assets', 'eldovin-storgatan.html'), storgatan.join('\n'), 'utf-8')
-  await writeFile(path.join(__dirname, '../_site/assets', 'eldovin-heimdallgatan.html'), heimdall.join('\n'), 'utf-8')
+  await saveHtml(storgatan.join('\n'), 'eldovin-storgatan.html')
+  await saveHtml(heimdall.join('\n'), 'eldovin-heimdallgatan.html')
 
   const updatedAt = new Date()
   return [

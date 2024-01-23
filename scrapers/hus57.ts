@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, type RestaurantInfo, getUserAgent, saveFile } from '../helpers'
+import { DataError, FetchError, type RestaurantInfo, getUserAgent, savePdfImg } from '../helpers'
 import { fetch } from 'undici'
+import * as path from 'node:path'
 
 export default async function scrape (): Promise<RestaurantInfo[]> {
   const baseUrl = 'https://www.hus57.se'
@@ -33,12 +34,15 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
 
   if (!pdfRes.ok) throw new FetchError(pdfRes.url, pdfRes.status, await pdfRes.text())
 
-  await saveFile(pdfRes, 'hus57.pdf')
+  const pages = await savePdfImg(pdfRes, 'hus57')
 
   return [{
     id: 'hus57',
     name: 'Hus 57',
     updatedAt: new Date(),
-    files: [{ type: 'pdf', src: '/assets/hus57.pdf' }]
+    files: pages.map(p => ({
+      type: 'image',
+      src: `/${path.relative(path.resolve(__dirname, '../_site'), p.path)}`
+    }))
   }]
 }
