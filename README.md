@@ -7,11 +7,11 @@
 - [x] Catena
 - [x] Nimt
 - [x] Midgårdens Värdshus
+- [x] Bryggan
+- [x] Torstens
 - [ ] Bah mi King
 - [ ] Yammi
 - [ ] Jasmine
-- [ ] Torstens
-- [x]] Bryggan
 
 ## Resturants to list
 
