@@ -1,8 +1,6 @@
 import * as cheerio from 'cheerio'
 import { FetchError, type RestaurantInfo, getUserAgent, saveHtml } from '../helpers'
 import { fetch } from 'undici'
-import { writeFile } from 'node:fs/promises'
-import * as path from 'node:path'
 
 export default async function scrape (): Promise<RestaurantInfo[]> {
   const baseUrl = new URL('https://eldochvin.se/lunch/')

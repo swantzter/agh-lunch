@@ -24,7 +24,7 @@ async function run () {
 
   const restaurants: RestaurantInfo[] = [
     { id: 'bensinpizza', name: 'Bensinpizza' },
-    { id: 'currynamnam', name: 'Curry Namn Nam' },
+    { id: 'currynamnam', name: 'Curry Nam Nam' },
     { id: 'yazhou', name: 'Yazhou' }
   ]
 

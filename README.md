@@ -11,6 +11,7 @@
 - [ ] Yammi
 - [ ] Jasmine
 - [ ] Torstens
+- [x]] Bryggan
 
 ## Resturants to list
 

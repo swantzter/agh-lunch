@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Gather Ängelholm Lunch Menus",
   "scripts": {
-    "scrape": "tsx scrape.ts"
+    "scrape": "tsx scrape.ts",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.mjs,.cjs .",
+    "lint:fix": "npm run lint -- --fix",
+    "typecheck": "tsc --noEmit"
   },
   "author": "Svante Bengtson <svante@swantzter.se>",
   "license": "MIT",
