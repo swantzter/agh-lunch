@@ -13,7 +13,7 @@
 <body>
   <div class="container" v-scope @vue:mounted="mounted()">
     <nav>
-      <a @click="autoPlay = !autoPlay">
+      <a @click="toggleAutoPlay()">
         <div v-if="autoPlay" class="progress" :style="{ '--progress': switchProgress }"></div>
         <span>{{ autoPlay ? 'Pausa' : 'Autoplay' }}</span>
       </a>
@@ -127,6 +127,10 @@
           this.currentRestaurantId = this.menuRestaurants[currIdx + 1].id
         }
         this.lastChange = Date.now()
+      },
+      toggleAutoPlay () {
+        if (!this.autoPlay) this.nextRestaurant()
+        this.autoPlay = !this.autoPlay
       },
 
       formatDate (date) {
