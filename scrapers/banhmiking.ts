@@ -12,9 +12,6 @@ const style = `<style>
   .mkdf-two-columns > div {
     border: 2px solid black;
   }
-  img {
-    display: none;
-  }
   h4 {
     margin-block-end: 0;
     margin-block-start: .5rem;
@@ -45,7 +42,8 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
   const body = await res.text()
   const $ = cheerio.load(body)
 
-  const menu = $('.mkdf-container-inner.clearfix .mkdf-full-section-inner').html()
+  $('.mkdf-container-inner.clearfix .mkdf-full-section-inner img').remove()
+  const menu = $('.mkdf-container-inner.clearfix .mkdf-full-section-inner')
   if (menu == null) throw new DataError('Could not find menu', res.url, body)
 
   await saveHtml(`${style}${menu}`, 'banhmiking.html')

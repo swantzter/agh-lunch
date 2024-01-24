@@ -12,9 +12,6 @@ const style = `<style>
   .mkdf-two-columns > div {
     border: 2px solid black;
   }
-  img {
-    display: none;
-  }
   li {
     list-style: none;
   }
@@ -34,6 +31,7 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
   const body = await res.text()
   const $ = cheerio.load(body)
 
+  $('.mkdf-container-inner.clearfix img').remove()
   const menu = $('.mkdf-container-inner.clearfix').html()
   if (menu == null) throw new DataError('Could not find menu', res.url, body)
 
