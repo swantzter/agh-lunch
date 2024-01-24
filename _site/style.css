@@ -58,7 +58,7 @@ nav a .progress + * {
 main {
   max-width: 100%;
   max-height: 100%;
-  overflow: hidden;
+  overflow: auto;
   display: grid;
   grid-template-rows: repeat(var(--files, 1), calc(100vh / var(--files, 1)));
   grid-template-rows: repeat(var(--files, 1), calc(100svh / var(--files, 1)));
