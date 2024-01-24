@@ -15,13 +15,24 @@ const style = `<style>
   img {
     display: none;
   }
+  h4 {
+    margin-block-end: 0;
+    margin-block-start: .5rem;
+  }
+  p {
+    margin-block-start: 0;
+    margin-block-end: .5rem;
+  }
+  .vc_empty_space {
+    display: none;
+  }
   li {
     list-style: none;
   }
 </style>`
 
 export default async function scrape (): Promise<RestaurantInfo[]> {
-  const baseUrl = 'https://www.yammi.se/veckans-lunch/'
+  const baseUrl = 'https://www.banhmiking.se/?page_id=1452'
   const res = await fetch(baseUrl, {
     headers: {
       accept: 'text/html',
@@ -34,18 +45,18 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
   const body = await res.text()
   const $ = cheerio.load(body)
 
-  const menu = $('.mkdf-container-inner.clearfix').html()
+  const menu = $('.mkdf-container-inner.clearfix .mkdf-full-section-inner').html()
   if (menu == null) throw new DataError('Could not find menu', res.url, body)
 
-  await saveHtml(`${style}${menu}`, 'yammi.html')
+  await saveHtml(`${style}${menu}`, 'banhmiking.html')
 
   return [{
-    id: 'yammi',
-    name: 'YaMMi',
+    id: 'banhmiking',
+    name: 'Banh Mi King',
     updatedAt: new Date(),
     files: [{
       type: 'html',
-      src: '/assets/yammi.html'
+      src: '/assets/banhmiking.html'
     }]
   }]
 }
