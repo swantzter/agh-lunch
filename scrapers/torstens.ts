@@ -1,4 +1,3 @@
-import * as cheerio from 'cheerio'
 import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError } from '../helpers'
 import { fetch } from 'undici'
 

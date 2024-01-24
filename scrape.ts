@@ -22,11 +22,7 @@ async function run () {
     .filter(file => (file.indexOf('.') !== 0) && (file.slice(-3) === '.js' || file.slice(-3) === '.ts'))
     .filter(file => args.values.scraper == null || args.values.scraper.length === 0 ? true : args.values.scraper.includes(file))
 
-  const restaurants: RestaurantInfo[] = [
-    { id: 'bensinpizza', name: 'Bensinpizza' },
-    { id: 'currynamnam', name: 'Curry Nam Nam' },
-    { id: 'yazhou', name: 'Yazhou' }
-  ]
+  const restaurants: RestaurantInfo[] = []
 
   for (const scraper of scraperFiles) {
     console.log(scraper)
