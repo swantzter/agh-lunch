@@ -19,6 +19,7 @@
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" sizes="any">
   <link rel="mask-icon" href="/img/favicon.svg" color="#000000">
   <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
 
   <link rel="manifest" href="/manifest.webmanifest">
 </head>
@@ -26,7 +27,7 @@
 <body>
   <div class="container" v-scope @vue:mounted="mounted()">
     <nav>
-      <a @click="toggleAutoPlay()">
+      <a @click="toggleAutoPlay()" rel="nofollow">
         <div v-if="autoPlay" class="progress" :style="{ '--progress': switchProgress }"></div>
         <span>{{ autoPlay ? 'Pausa' : 'Autoplay' }}</span>
       </a>
