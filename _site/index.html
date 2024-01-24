@@ -39,6 +39,11 @@
         <span>{{ restaurant.name }}</span>
         <span class="small">meny saknas</span>
       </a>
+
+      <a id="about" href="/om.html">
+        <span>Om Lunch i Ängelholm</span>
+        <span class="small">version: dev</span>
+      </a>
     </nav>
     <main v-if="currentRestaurant != null" :style="{ '--files': currentRestaurant.files.length || 1 }">
       <div v-for="file of currentRestaurant.files" :key="file.src">

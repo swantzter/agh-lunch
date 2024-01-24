@@ -43,7 +43,7 @@ export class DataError extends Error {
 }
 
 export function getUserAgent () {
-  return `undici/${pkgLock.packages['node_modules/undici'].version} ${pkgJson.name}/${pkgJson.version} (svante@swantzter.se)`
+  return `undici/${pkgLock.packages['node_modules/undici'].version} ${pkgJson.name}/${pkgJson.version} (lunch@swantzter.se)`
 }
 
 export async function saveFile (res: Response, name: string) {

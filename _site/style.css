@@ -5,6 +5,8 @@
   grid-template-rows: 100svh;
   max-width: 100vw;
   width: 100vw;
+  background-color: #fff;
+  color: #000;
 }
 
 nav {
@@ -53,6 +55,11 @@ nav a .progress {
 
 nav a .progress + * {
   z-index: 1;
+}
+
+nav a#about {
+  text-decoration: none;
+  color: #000;
 }
 
 main {

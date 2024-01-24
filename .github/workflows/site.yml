@@ -36,6 +36,9 @@ jobs:
         with:
           static_site_generator: custom
       - run: npm run scrape
+      - run: |
+          SHA="$(git rev-parse --short HEAD)"
+          sed -i "s/version: dev/version: $SHA/g" _site/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
       - name: Deploy to GitHub Pages
