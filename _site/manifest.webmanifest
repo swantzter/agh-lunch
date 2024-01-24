@@ -30,6 +30,11 @@
       "type": "image/vnd.microsoft.icon"
     },
     {
+      "src": "/img/apple-touch-icon.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
       "src": "/img/maskicon1024.png",
       "sizes": "1024x1024",
       "type": "image/png",
