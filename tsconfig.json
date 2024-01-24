@@ -7,5 +7,10 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true
-  }
+  },
+  "files": [
+    "./.*.js",
+    "*.ts",
+    "**/*.ts"
+  ]
 }
