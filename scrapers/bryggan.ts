@@ -1,8 +1,10 @@
 import * as cheerio from 'cheerio'
-import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError } from '../helpers'
+import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../helpers'
 import { fetch } from 'undici'
 
-export default async function scrape (): Promise<RestaurantInfo[]> {
+export const info: RestaurantInfo = { id: 'bryggan', name: 'Bryggan Kök & Bar' }
+
+export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = new URL('https://brygganangelholm.se/lunch/')
   const res = await fetch(baseUrl, {
     headers: {
@@ -21,11 +23,5 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
 
   await saveHtml(menu, 'bryggan.html')
 
-  const updatedAt = new Date()
-  return [{
-    id: 'bryggan',
-    name: 'Bryggan Kök & Bar',
-    updatedAt,
-    files: [{ type: 'html', src: '/assets/bryggan.html' }]
-  }]
+  return [{ type: 'html', src: '/assets/bryggan.html' }]
 }

@@ -1,5 +1,3 @@
 import { type RestaurantInfo } from '../helpers'
 
-export default function scrape (): RestaurantInfo[] {
-  return [{ id: 'robertos', name: 'Robertos' }]
-}
+export const info: RestaurantInfo = { id: 'robertos', name: 'Robertos' }

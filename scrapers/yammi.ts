@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, getUserAgent, saveHtml, type RestaurantInfo } from '../helpers'
+import { DataError, FetchError, getUserAgent, saveHtml, type RestaurantInfo, type MenuFile } from '../helpers'
 
 const style = `<style>
   .mkdf-two-columns {
@@ -17,7 +17,9 @@ const style = `<style>
   }
 </style>`
 
-export default async function scrape (): Promise<RestaurantInfo[]> {
+export const info: RestaurantInfo = { id: 'yammi', name: 'YaMMi' }
+
+export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.yammi.se/veckans-lunch/'
   const res = await fetch(baseUrl, {
     headers: {
@@ -38,12 +40,7 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
   await saveHtml(`${style}${menu}`, 'yammi.html')
 
   return [{
-    id: 'yammi',
-    name: 'YaMMi',
-    updatedAt: new Date(),
-    files: [{
-      type: 'html',
-      src: '/assets/yammi.html'
-    }]
+    type: 'html',
+    src: '/assets/yammi.html'
   }]
 }

@@ -1,7 +1,7 @@
 import { readFile, readdir, writeFile } from 'node:fs/promises'
 import * as path from 'node:path'
 import { parseArgs } from 'node:util'
-import { type RestaurantInfo } from './helpers'
+import { type MenuFile, type RestaurantInfo } from './helpers'
 
 const manifestPath = path.join(__dirname, '_site/restaurants.json')
 
@@ -26,12 +26,17 @@ async function run () {
 
   for (const scraper of scraperFiles) {
     console.log(scraper)
-    try {
-      const mod = await import(path.join(__dirname, 'scrapers', scraper))
-
-      restaurants.push(...(await mod.default() ?? []) as RestaurantInfo[])
-    } catch (err) {
-      console.error('Failed to run scraper', err)
+    const mod = await import(path.join(__dirname, 'scrapers', scraper))
+    const info = { ...(mod.info as RestaurantInfo) }
+    restaurants.push(info)
+    if (mod.default != null) {
+      try {
+        const files = await mod.default() as MenuFile[]
+        info.files = files
+        info.updatedAt = new Date()
+      } catch (err) {
+        console.error('Failed to run scraper', err)
+      }
     }
   }
 

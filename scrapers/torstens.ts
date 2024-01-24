@@ -1,7 +1,9 @@
-import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError } from '../helpers'
+import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../helpers'
 import { fetch } from 'undici'
 
-export default async function scrape (): Promise<RestaurantInfo[]> {
+export const info: RestaurantInfo = { id: 'torstens', name: 'Torstens Smakar Mera' }
+
+export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = new URL('https://torstens.se/wp-admin/admin-ajax.php')
   const res = await fetch(baseUrl, {
     method: 'POST',
@@ -20,11 +22,5 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
 
   await saveHtml(body, 'torstens.html')
 
-  const updatedAt = new Date()
-  return [{
-    id: 'torstens',
-    name: 'Torstens Smakar Mera',
-    updatedAt,
-    files: [{ type: 'html', src: '/assets/torstens.html' }]
-  }]
+  return [{ type: 'html', src: '/assets/torstens.html' }]
 }

@@ -40,7 +40,9 @@ function isRenderedImage (x: unknown): x is RenderedImage {
   return typeof x === 'object' && x != null && 'url' in x
 }
 
-export default async function scrape (): Promise<RestaurantInfo[]> {
+export const info: RestaurantInfo = { id: 'catena', name: 'Catena Arena' }
+
+export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.roglebk.se'
   // the UUID here is the page/CMS id for the lunch page
   const res = await fetch(new URL('/api/layouts/site-layouts/2141f64a-42fe-478a-a3e7-f6ee906a4bf5', baseUrl), {
@@ -91,10 +93,5 @@ export default async function scrape (): Promise<RestaurantInfo[]> {
     files.push({ type: 'image', src: `/assets/catena-${idx + 1}.jpg` })
   }))
 
-  return [{
-    id: 'catena',
-    name: 'Catena Arena',
-    updatedAt: new Date(),
-    files
-  }]
+  return files
 }
