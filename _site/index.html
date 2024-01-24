@@ -26,6 +26,7 @@
       <a
         v-for="restaurant of menuRestaurants"
         :key="restaurant.id"
+        :id="`a-${restaurant.id}`"
         :class="{ selected: currentRestaurantId === restaurant.id }"
         @click="currentRestaurantId = restaurant.id; autoPlay = false"
       >
@@ -36,6 +37,7 @@
       <a
         v-for="restaurant of listRestaurants"
         :key="restaurant.id"
+        :id="`a-${restaurant.id}`"
         class="disabled"
         aria-disabled="true"
       >
@@ -137,6 +139,7 @@
           this.currentRestaurantId = this.menuRestaurants[currIdx + 1].id
         }
         this.lastChange = Date.now()
+        document.getElementById(`a-${this.currentRestaurantId}`).scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
       },
       toggleAutoPlay () {
         if (!this.autoPlay) this.nextRestaurant()
