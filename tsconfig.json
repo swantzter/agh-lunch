@@ -8,9 +8,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true
   },
-  "files": [
+  "include": [
     "./.*.js",
-    "*.ts",
-    "**/*.ts"
+    "./*.ts",
+    "./**/*.ts"
   ]
 }
