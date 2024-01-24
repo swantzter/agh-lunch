@@ -32,6 +32,7 @@ async function run () {
     if (mod.default != null) {
       try {
         const files = await mod.default() as MenuFile[]
+        console.log(files)
         info.files = files
         info.updatedAt = new Date()
       } catch (err) {
