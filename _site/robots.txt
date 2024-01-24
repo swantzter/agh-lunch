@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://archive.ijru.sport/sitemap.xml
