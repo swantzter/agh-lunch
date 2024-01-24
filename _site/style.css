@@ -19,6 +19,7 @@ nav {
 
 nav a {
   height: 3rem;
+  min-height: 3rem;
   padding-inline: 1rem;
   display: flex;
   flex-direction: column;
