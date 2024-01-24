@@ -15,6 +15,7 @@ nav {
   border-right: 1px solid gray;
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 nav a {
