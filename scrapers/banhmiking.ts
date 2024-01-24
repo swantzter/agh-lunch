@@ -45,7 +45,7 @@ export default async function scrape (): Promise<MenuFile[]> {
   const $ = cheerio.load(body)
 
   $('.mkdf-container-inner.clearfix .mkdf-full-section-inner img').remove()
-  const menu = $('.mkdf-container-inner.clearfix .mkdf-full-section-inner')
+  const menu = $('.mkdf-container-inner.clearfix .mkdf-full-section-inner').html()
   if (menu == null) throw new DataError('Could not find menu', res.url, body)
 
   await saveHtml(`${style}${menu}`, 'banhmiking.html')
