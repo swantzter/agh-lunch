@@ -139,7 +139,11 @@
           this.currentRestaurantId = this.menuRestaurants[currIdx + 1].id
         }
         this.lastChange = Date.now()
-        document.getElementById(`a-${this.currentRestaurantId}`).scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+        document.getElementById(`a-${this.currentRestaurantId}`).scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center'
+        })
       },
       toggleAutoPlay () {
         if (!this.autoPlay) this.nextRestaurant()
