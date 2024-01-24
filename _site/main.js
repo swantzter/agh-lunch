@@ -11,6 +11,7 @@ createApp({
   lastChange: -Infinity,
   /** @type {number} */
   lastFetch: -Infinity,
+  loadDay: new Date().getDate(),
   /** @type {boolean} */
   autoPlay: true,
 
@@ -52,6 +53,12 @@ createApp({
         this.nextRestaurant()
       }
 
+      // Reload the page once per day to get any new code updates
+      if (this.loadDay !== new Date().getDate()) {
+        window.location.reload()
+      }
+
+      // Refetch the list of restaurants every now and then
       if (Math.abs(this.now - this.lastChange) > fetchTime) {
         this.fetchRestaurants()
       }
