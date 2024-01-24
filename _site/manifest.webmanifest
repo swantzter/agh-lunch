@@ -1,0 +1,51 @@
+{
+  "name": "Lunch i Ängelholm",
+  "short_name": "ÄGH Lunch",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "sv",
+  "scope": "/",
+  "orientation": "portrait",
+  "categories": [
+    "food"
+  ],
+  "dir": "ltr",
+  "description": "Listar lunchmenyer för restauranger i Ängelholm",
+  "icons": [
+    {
+      "src": "/img/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/img/favicon.ico",
+      "sizes": "128x128",
+      "type": "image/vnd.microsoft.icon"
+    },
+    {
+      "src": "/img/maskicon1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/maskicon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/maskicon192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
