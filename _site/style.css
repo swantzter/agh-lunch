@@ -73,7 +73,7 @@ main {
   grid-template-rows: repeat(var(--files, 1), calc(100svh / var(--files, 1)));
 }
 
-main div:has(img) {
+main > div:has(img) {
   justify-self: center;
   align-self: stretch;
 }
@@ -115,5 +115,10 @@ main iframe {
 
   nav a:not(:last-child) {
     border-right: 1px solid gray;
+  }
+
+  main > div {
+    max-height: calc(100vh - 3rem);
+    max-height: calc(100svh - 3rem);
   }
 }
