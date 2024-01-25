@@ -2,7 +2,7 @@ import { createApp } from './petite-vue.es.js'
 
 const dateFormatter = new Intl.RelativeTimeFormat(['sv-SE', 'sv', 'en-SE', 'en-GB', 'en'], { style: 'short', numeric: 'auto' })
 const autoplayTime = 20_000
-const fetchTime = 1000 * 60 * 60 // 1h
+const fetchTime = 1000 * 60 * 10 // 10 min
 
 createApp({
   /** @type {number} */
