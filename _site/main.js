@@ -1,4 +1,4 @@
-import { createApp } from 'https://unpkg.com/petite-vue?module'
+import { createApp } from './petite-vue.es.js'
 
 const dateFormatter = new Intl.RelativeTimeFormat(['sv-SE', 'sv', 'en-SE', 'en-GB', 'en'], { style: 'short', numeric: 'auto' })
 const autoplayTime = 20_000
