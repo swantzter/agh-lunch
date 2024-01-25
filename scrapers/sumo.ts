@@ -1,0 +1,10 @@
+import { type RestaurantInfo } from '../helpers'
+
+export const info: RestaurantInfo = { id: 'sumo', name: 'Sumo' }
+
+/**
+ * POST /graphql
+ * Host: https://api.thelocoapp.com
+ *
+ * {"operationName":"GetMenu","variables":{"menuType":"EatIn","restaurantId":"2UDexMsbn7"},"query":"query GetMenu($restaurantId: ID!, $menuType: MenuType!) {\n  restaurant(id: $restaurantId) {\n    id\n    menu(filter: {types: [$menuType]}) {\n      id\n      courses {\n        id\n        name\n        __typename\n      }\n      pages {\n        name\n        categories {\n          key: id\n          name\n          products {\n            id\n            name\n            quantityAvailable\n            defaultCourse {\n              id\n              name\n              __typename\n            }\n            properties(menuType: $menuType) {\n              ...FullProductProperties\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment FullProductProperties on MenuProductProperties {\n  id\n  stateId\n  description\n  price\n  imageUrl\n  openingHours {\n    displayHours {\n      ...PartialOpeningHours\n      __typename\n    }\n    ...PartialOpeningHours\n    productVisibility\n    __typename\n  }\n  alternativeGroups {\n    id\n    name\n    forceChoice\n    isCountable\n    maxChoices\n    minChoices\n    alternativeItems {\n      name\n      countableUsage\n      isDefault\n      addonProduct {\n        name\n        properties {\n          id\n          stateId\n          description\n          price\n          imageUrl\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nfragment PartialOpeningHours on OpeningHours {\n  id\n  name\n  periods {\n    open {\n      day\n      time\n      __typename\n    }\n    close {\n      day\n      time\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n"}
+ */
