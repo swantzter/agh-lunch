@@ -4,8 +4,19 @@ import { fetch } from 'undici'
 
 export const info: RestaurantInfo = { id: 'eldovin-storgatan', name: 'Eld&Vin Storgatan' }
 
+const storgatan: string[] = []
+const heimdall: string[] = []
+
 export function scrapeFactory (restaurant: 'storgatan' | 'heimdallgatan'): () => Promise<MenuFile[]> {
   return async function scrape () {
+    if (restaurant === 'storgatan' && storgatan.length > 0) {
+      await saveHtml(storgatan.join('\n'), 'eldovin-storgatan.html')
+      return [{ type: 'html', src: '/assets/eldovin-storgatan.html' }]
+    } else if (restaurant === 'heimdallgatan' && heimdall.length > 0) {
+      await saveHtml(heimdall.join('\n'), 'eldovin-heimdallgatan.html')
+      return [{ type: 'html', src: '/assets/eldovin-heimdallgatan.html' }]
+    }
+
     const baseUrl = new URL('https://eldochvin.se/lunch/')
     const res = await fetch(baseUrl, {
       headers: {
@@ -19,8 +30,6 @@ export function scrapeFactory (restaurant: 'storgatan' | 'heimdallgatan'): () =>
     const body = await res.text()
     const $ = cheerio.load(body)
 
-    const storgatan: string[] = []
-    const heimdall: string[] = []
     let current = storgatan
 
     $('#lunchmeny p').each((idx, p) => {
