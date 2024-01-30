@@ -1,8 +1,12 @@
 import { createApp } from './petite-vue.es.js'
 
 const dateFormatter = new Intl.RelativeTimeFormat(['sv-SE', 'sv', 'en-SE', 'en-GB', 'en'], { style: 'short', numeric: 'auto' })
-const autoplayTime = 20_000
+const defaultAutoplayDuration = 20_000
 const fetchTime = 1000 * 60 * 10 // 10 min
+
+/**
+ * @typedef {{ id: string, name: string, updatedAt?: string, autoplayDuration?: number, files?: Array<{ type: 'image' | 'html', src: string }> }} RestaurantInfo
+ */
 
 createApp({
   /** @type {number} */
@@ -19,19 +23,25 @@ createApp({
   ongoingFetch: null,
   /** @type {number | null} */
   currentRestaurantId: null,
+  /** @type {RestaurantInfo[]} */
   restaurants: [],
 
+  /** @returns {RestaurantInfo[]} */
   get menuRestaurants () {
     return this.restaurants.filter(r => r.files != null && r.files.length > 0)
   },
+  /** @returns {RestaurantInfo[]} */
   get listRestaurants () {
     return this.restaurants.filter(r => r.files == null || r.files.length === 0)
   },
+  /** @returns {RestaurantInfo} */
   get currentRestaurant () {
     return this.restaurants.find(r => r.id === this.currentRestaurantId)
   },
   get switchProgress () {
-    return `${Math.round((1 - (Math.abs(this.now - this.lastChange) / autoplayTime)) * 100)}%`
+    // I want it to fallback if the value is 0
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    return `${Math.round((1 - (Math.abs(this.now - this.lastChange) / (this.currentRestaurant?.autoplayDuration || defaultAutoplayDuration))) * 100)}%`
   },
 
   mounted () {
@@ -46,7 +56,9 @@ createApp({
 
       // Change the currently displayed menu on an interval
       if (
-        Math.abs(this.now - this.lastChange) > autoplayTime &&
+        // I want it to fallback if the value is 0
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        Math.abs(this.now - this.lastChange) > (this.currentRestaurant?.autoplayDuration || defaultAutoplayDuration) &&
         this.menuRestaurants.length > 0 &&
         this.autoPlay === true
       ) {

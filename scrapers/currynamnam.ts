@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio'
 import { type MenuFile, getUserAgent, type RestaurantInfo, FetchError, DataError, saveHtml } from '../helpers'
 
-export const info: RestaurantInfo = { id: 'currynamnam', name: 'Curry Nam Nam' }
+export const info: RestaurantInfo = { id: 'currynamnam', name: 'Curry Nam Nam', autoplayDuration: 20_000 }
 
 const dayMenus: Record<number, string> = {
   1: '/mandag-angelholm/',

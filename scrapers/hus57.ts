@@ -3,7 +3,7 @@ import { DataError, FetchError, type RestaurantInfo, getUserAgent, savePdfImg, t
 import { fetch } from 'undici'
 import * as path from 'node:path'
 
-export const info: RestaurantInfo = { id: 'hus57', name: 'Hus 57' }
+export const info: RestaurantInfo = { id: 'hus57', name: 'Hus 57', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.hus57.se'

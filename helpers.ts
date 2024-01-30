@@ -13,6 +13,7 @@ export interface RestaurantInfo {
   name: string
   updatedAt?: Date
   files?: MenuFile[]
+  autoplayDuration?: number
 }
 
 export interface MenuFile {

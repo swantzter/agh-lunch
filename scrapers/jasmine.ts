@@ -7,7 +7,7 @@ p, h1, h2, h3, h4, h5 {
 }
 </style>`
 
-export const info: RestaurantInfo = { id: 'jasmine', name: 'Jasmine Thai' }
+export const info: RestaurantInfo = { id: 'jasmine', name: 'Jasmine Thai', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.jasminethairestaurang.com/dagens'

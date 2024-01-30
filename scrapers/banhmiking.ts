@@ -28,7 +28,7 @@ const style = `<style>
   }
 </style>`
 
-export const info: RestaurantInfo = { id: 'banhmiking', name: 'Banh Mi King' }
+export const info: RestaurantInfo = { id: 'banhmiking', name: 'Banh Mi King', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.banhmiking.se/?page_id=1452'

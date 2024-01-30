@@ -40,7 +40,7 @@ function isRenderedImage (x: unknown): x is RenderedImage {
   return typeof x === 'object' && x != null && 'url' in x
 }
 
-export const info: RestaurantInfo = { id: 'catena', name: 'Catena Arena' }
+export const info: RestaurantInfo = { id: 'catena', name: 'Catena Arena', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.roglebk.se'

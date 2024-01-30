@@ -1,7 +1,7 @@
 import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../helpers'
 import { fetch } from 'undici'
 
-export const info: RestaurantInfo = { id: 'torstens', name: 'Torstens Smakar Mera' }
+export const info: RestaurantInfo = { id: 'torstens', name: 'Torstens Smakar Mera', autoplayDuration: 20_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = new URL('https://torstens.se/wp-admin/admin-ajax.php')

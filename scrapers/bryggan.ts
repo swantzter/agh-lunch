@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio'
 import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../helpers'
 import { fetch } from 'undici'
 
-export const info: RestaurantInfo = { id: 'bryggan', name: 'Bryggan Kök & Bar' }
+export const info: RestaurantInfo = { id: 'bryggan', name: 'Bryggan Kök & Bar', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = new URL('https://brygganangelholm.se/lunch/')

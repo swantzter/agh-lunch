@@ -44,10 +44,10 @@ async function run () {
   try {
     const prevManifest: RestaurantInfo[] = JSON.parse(await readFile(manifestPath, 'utf-8'))
 
-    for (const restaurant of prevManifest) {
-      if (restaurants.find(r => r.id === restaurant.id) == null) {
-        restaurants.push(restaurant)
-      }
+    // If we fetched it before and failed now, use the previous menu
+    for (let idx = 0; idx < restaurants.length; idx++) {
+      const prevRes = prevManifest.find(r => r.id === restaurants[idx].id)
+      if (prevRes != null) restaurants.splice(idx, 1, { ...prevRes, ...restaurants[idx] })
     }
   } catch {}
 

@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio'
 import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, type MenuFile } from '../helpers'
 import { fetch } from 'undici'
 
-export const info: RestaurantInfo = { id: 'eldovin-storgatan', name: 'Eld&Vin Storgatan' }
+export const info: RestaurantInfo = { id: 'eldovin-storgatan', name: 'Eld&Vin Storgatan', autoplayDuration: 20_000 }
 
 const storgatan: string[] = []
 const heimdall: string[] = []
