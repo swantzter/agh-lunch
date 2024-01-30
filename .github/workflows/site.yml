@@ -24,6 +24,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Cache scrapes in case of temporary failures
+        uses: actions/cache@v4
+        with:
+          key: menus-${{ github.run_id }}
+          restore-keys: |
+            menus-${{ github.run_id }}
+            menus-
+          path: |
+            _site/assets
+            _site/restaurants.json
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
