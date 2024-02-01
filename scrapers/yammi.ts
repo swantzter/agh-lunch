@@ -17,7 +17,7 @@ const style = `<style>
   }
 </style>`
 
-export const info: RestaurantInfo = { id: 'yammi', name: 'YaMMi', autoplayDuration: 10_00 }
+export const info: RestaurantInfo = { id: 'yammi', name: 'YaMMi', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.yammi.se/veckans-lunch/'
