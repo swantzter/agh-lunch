@@ -12,16 +12,15 @@
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node20": "^20.1.2",
-    "@types/node": "^20.11.5",
-    "@typescript-eslint/eslint-plugin": "~6.18",
-    "eslint": "^8.56.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.11.28",
+    "eslint": "^8.57.0",
+    "eslint-config-love": "^43.1.0",
+    "tsx": "^4.7.1",
+    "typescript": "5.3"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "pdf-to-png-converter": "^3.1.0",
-    "undici": "^6.4.0"
+    "pdf-to-png-converter": "^3.2.0",
+    "undici": "^6.9.0"
   }
 }

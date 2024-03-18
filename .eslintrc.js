@@ -1,6 +1,6 @@
 /** @type {import('eslint').ESLint.ConfigData} */
 module.exports = {
-  extends: 'standard-with-typescript',
+  extends: 'love',
   parserOptions: {
     project: 'tsconfig.json'
   },
