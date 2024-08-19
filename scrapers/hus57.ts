@@ -21,7 +21,7 @@ export default async function scrape (): Promise<MenuFile[]> {
   const body = await res.text()
   const $ = cheerio.load(body)
 
-  const menuHref = $('a:contains(MENY)').attr('href')
+  const menuHref = $('a:contains(LUNCH)').attr('href')
   if (menuHref == null) throw new DataError('Could not find link to menu', res.url, body)
 
   const pdfRes = await fetch(new URL(menuHref, baseUrl), {
