@@ -4,19 +4,22 @@
   "description": "Gather Ängelholm Lunch Menus",
   "scripts": {
     "scrape": "tsx scrape.ts",
-    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.mjs,.cjs .",
+    "lint": "eslint",
     "lint:fix": "npm run lint -- --fix",
     "typecheck": "tsc --noEmit"
   },
   "author": "Svante Bengtson <svante@swantzter.se>",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.9.0",
     "@tsconfig/node20": "^20.1.2",
+    "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.11.28",
-    "eslint": "^8.57.0",
-    "eslint-config-love": "^43.1.0",
+    "eslint": "^9.9.0",
+    "neostandard": "^0.11.2",
     "tsx": "^4.7.1",
-    "typescript": "5.3"
+    "typescript": "5.3",
+    "typescript-eslint": "^8.1.0"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",

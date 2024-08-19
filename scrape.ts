@@ -12,26 +12,26 @@ async function run () {
       scraper: {
         type: 'string',
         multiple: true,
-        short: 's'
-      }
-    }
+        short: 's',
+      },
+    },
   })
 
   const paths = await readdir(path.join(__dirname, 'scrapers'))
   const scraperFiles = paths
-    .filter(file => (file.indexOf('.') !== 0) && (file.slice(-3) === '.js' || file.slice(-3) === '.ts'))
+    .filter(file => (!file.startsWith('.')) && (file.endsWith('.js') || file.endsWith('.ts')))
     .filter(file => args.values.scraper == null || args.values.scraper.length === 0 ? true : args.values.scraper.includes(file))
 
   const restaurants: RestaurantInfo[] = []
 
   for (const scraper of scraperFiles) {
     console.log(scraper)
-    const mod = await import(path.join(__dirname, 'scrapers', scraper))
-    const info = { ...(mod.info as RestaurantInfo) }
+    const mod = await import(path.join(__dirname, 'scrapers', scraper)) as { default?: () => Promise<MenuFile[]>, info: RestaurantInfo }
+    const info = { ...mod.info }
     restaurants.push(info)
     if (mod.default != null) {
       try {
-        const files = await mod.default() as MenuFile[]
+        const files = await mod.default()
         console.log(files)
         info.files = files
         info.updatedAt = new Date()
@@ -42,7 +42,7 @@ async function run () {
   }
 
   try {
-    const prevManifest: RestaurantInfo[] = JSON.parse(await readFile(manifestPath, 'utf-8'))
+    const prevManifest = JSON.parse(await readFile(manifestPath, 'utf-8')) as RestaurantInfo[]
 
     // If we fetched it before and failed now, use the previous menu
     for (let idx = 0; idx < restaurants.length; idx++) {
@@ -56,4 +56,4 @@ async function run () {
 
 run()
   .then(() => { process.exit(0) })
-  .catch(err => { console.error(err); process.exit(1) })
+  .catch((err: unknown) => { console.error(err); process.exit(1) })

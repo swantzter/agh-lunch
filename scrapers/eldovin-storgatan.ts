@@ -22,8 +22,8 @@ export function scrapeFactory (restaurant: 'storgatan' | 'heimdallgatan'): () =>
       headers: {
         accept: 'text/html',
         'cache-control': 'no-cache',
-        'user-agent': getUserAgent()
-      }
+        'user-agent': getUserAgent(),
+      },
     })
     if (!res.ok) throw new FetchError(res.url, res.status, await res.text())
 
@@ -45,6 +45,7 @@ export function scrapeFactory (restaurant: 'storgatan' | 'heimdallgatan'): () =>
     if (restaurant === 'storgatan') {
       await saveHtml(storgatan.join('\n'), 'eldovin-storgatan.html')
       return [{ type: 'html', src: '/assets/eldovin-storgatan.html' }]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     } else if (restaurant === 'heimdallgatan') {
       await saveHtml(heimdall.join('\n'), 'eldovin-heimdallgatan.html')
       return [{ type: 'html', src: '/assets/eldovin-heimdallgatan.html' }]

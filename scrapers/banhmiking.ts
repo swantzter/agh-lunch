@@ -36,8 +36,8 @@ export default async function scrape (): Promise<MenuFile[]> {
     headers: {
       accept: 'text/html',
       'cache-control': 'no-cache',
-      'user-agent': getUserAgent()
-    }
+      'user-agent': getUserAgent(),
+    },
   })
   if (!res.ok) throw new FetchError(res.url, res.status, await res.text())
 
@@ -52,6 +52,6 @@ export default async function scrape (): Promise<MenuFile[]> {
 
   return [{
     type: 'html',
-    src: '/assets/banhmiking.html'
+    src: '/assets/banhmiking.html',
   }]
 }

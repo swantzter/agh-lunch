@@ -10,7 +10,7 @@ const dayMenus: Record<number, string> = {
   4: '/torsdag/',
   5: '/fredag-2/',
   6: '/mandag-angelholm/',
-  7: '/mandag-angelholm/'
+  7: '/mandag-angelholm/',
 }
 
 export default async function scrape (): Promise<MenuFile[]> {
@@ -19,8 +19,8 @@ export default async function scrape (): Promise<MenuFile[]> {
     headers: {
       accept: 'text/html',
       'cache-control': 'no-cache',
-      'user-agent': getUserAgent()
-    }
+      'user-agent': getUserAgent(),
+    },
   })
   if (!res.ok) throw new FetchError(res.url, res.status, await res.text())
 

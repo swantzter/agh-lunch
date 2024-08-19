@@ -11,14 +11,14 @@ export default async function scrape (): Promise<MenuFile[]> {
       accept: 'text/html',
       'cache-control': 'no-cache',
       'user-agent': getUserAgent(),
-      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     },
-    body: 'action=get_lunch&store=store1'
+    body: 'action=get_lunch&store=store1',
   })
   if (!res.ok) throw new FetchError(res.url, res.status, await res.text())
 
   const body = await res.text()
-  if (body == null) throw new DataError('Could not find menu', res.url, body)
+  if (!body) throw new DataError('Could not find menu', res.url, body)
 
   await saveHtml(body, 'torstens.html')
 

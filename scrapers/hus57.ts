@@ -13,8 +13,8 @@ export default async function scrape (): Promise<MenuFile[]> {
       // IIS servers' deflate responses crashes node zlib
       'accept-encoding': 'identity',
       'cache-control': 'no-cache',
-      'user-agent': getUserAgent()
-    }
+      'user-agent': getUserAgent(),
+    },
   })
   if (!res.ok) throw new FetchError(res.url, res.status, await res.text())
 
@@ -30,8 +30,8 @@ export default async function scrape (): Promise<MenuFile[]> {
       // IIS servers' deflate responses crashes node zlib
       'accept-encoding': 'identity',
       'cache-control': 'no-cache',
-      'user-agent': getUserAgent()
-    }
+      'user-agent': getUserAgent(),
+    },
   })
 
   if (!pdfRes.ok) throw new FetchError(pdfRes.url, pdfRes.status, await pdfRes.text())
@@ -40,6 +40,6 @@ export default async function scrape (): Promise<MenuFile[]> {
 
   return pages.map(p => ({
     type: 'image',
-    src: `/${path.relative(path.resolve(__dirname, '../_site'), p.path)}`
+    src: `/${path.relative(path.resolve(__dirname, '../_site'), p.path)}`,
   }))
 }

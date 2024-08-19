@@ -1,11 +1,11 @@
 import { DataError, FetchError, type RestaurantInfo, getUserAgent, saveFile, type MenuFile } from '../helpers'
 import { fetch } from 'undici'
 
-interface PageData {
+interface LinkedImage {
   id: string
-  name: string
-  siteSections: SiteSection[]
+  src: string
 }
+
 interface BaseSiteSection {
   id: string
   type: string
@@ -16,13 +16,15 @@ interface LinkedImagesSiteSection extends BaseSiteSection {
   type: 'LINKED IMAGES'
   config: {
     bgSettings: string
-    linkedImages: LinkedImage[]
+    linkedImages?: LinkedImage[]
   }
 }
 type SiteSection = BaseSiteSection | LinkedImagesSiteSection
-interface LinkedImage {
+
+interface PageData {
   id: string
-  src: string
+  name: string
+  siteSections: SiteSection[]
 }
 
 function isPageData (x: unknown): x is PageData {
@@ -49,8 +51,8 @@ export default async function scrape (): Promise<MenuFile[]> {
     headers: {
       accept: 'application/json',
       'cache-control': 'no-cache',
-      'user-agent': getUserAgent()
-    }
+      'user-agent': getUserAgent(),
+    },
   })
   if (!res.ok) throw new FetchError(res.url, res.status, await res.text())
 
@@ -59,7 +61,7 @@ export default async function scrape (): Promise<MenuFile[]> {
   const section = pageData.siteSections.findLast(sec => sec.type === 'LINKED IMAGES') as LinkedImagesSiteSection | undefined
   if (section == null) throw new DataError('response is missing linked images section', res.url, pageData)
   const images = []
-  for (const image of section?.config?.linkedImages ?? []) {
+  for (const image of section.config.linkedImages ?? []) {
     images.push(image.src)
   }
 
@@ -72,8 +74,8 @@ export default async function scrape (): Promise<MenuFile[]> {
     const renderRes = await fetch(url, {
       headers: {
         accept: 'application/json',
-        'user-agent': getUserAgent()
-      }
+        'user-agent': getUserAgent(),
+      },
     })
     if (!res.ok) throw new FetchError(renderRes.url, renderRes.status, await renderRes.text())
 
@@ -83,8 +85,8 @@ export default async function scrape (): Promise<MenuFile[]> {
     const imgRes = await fetch(rendered.url, {
       headers: {
         accept: 'image/*',
-        'user-agent': getUserAgent()
-      }
+        'user-agent': getUserAgent(),
+      },
     })
     if (!imgRes.ok) throw new FetchError(imgRes.url, imgRes.status, await imgRes.text())
 

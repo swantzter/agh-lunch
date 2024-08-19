@@ -8,17 +8,17 @@ import { Readable } from 'node:stream'
 import { writeFile } from 'node:fs/promises'
 import { pdfToPng } from 'pdf-to-png-converter'
 
+export interface MenuFile {
+  type: 'image' | 'html'
+  src: string
+}
+
 export interface RestaurantInfo {
   id: string
   name: string
   updatedAt?: Date
   files?: MenuFile[]
   autoplayDuration?: number
-}
-
-export interface MenuFile {
-  type: 'image' | 'html'
-  src: string
 }
 
 export class FetchError extends Error {
@@ -34,9 +34,9 @@ export class FetchError extends Error {
 }
 
 export class DataError extends Error {
-  data: any
+  data: unknown
 
-  constructor (message: string, url: string, data: any) {
+  constructor (message: string, url: string, data: unknown) {
     super(`Got bad response when fetching ${url}`)
     this.name = 'DataError'
     this.data = data
@@ -57,7 +57,7 @@ export async function savePdfImg (res: Response, name: string) {
   const buf = Buffer.from(await res.arrayBuffer())
   const pages = await pdfToPng(buf, {
     outputFolder: '_site/assets',
-    outputFileMask: name
+    outputFileMask: name,
   })
   return pages
 }
