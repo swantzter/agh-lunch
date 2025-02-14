@@ -24,6 +24,6 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "pdf-to-png-converter": "^3.2.0",
-    "undici": "^6.11.1"
+    "undici": "^6.21.1"
   }
 }
