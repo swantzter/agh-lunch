@@ -18,7 +18,7 @@ nav {
   scrollbar-width: thin;
 }
 
-nav a {
+nav a, nav select {
   height: 3rem;
   min-height: 3rem;
   padding-inline: 1rem;
@@ -27,8 +27,19 @@ nav a {
   align-items: start;
   justify-content: center;
   cursor: pointer;
+  border: none;
   border-bottom: 1px solid gray;
   position: relative;
+  background-color: white;
+}
+
+nav .spacer + a, nav .spacer + select {
+  border-top: 1px solid gray;
+  margin-top: -1px;
+}
+
+nav .spacer {
+  flex-grow: 1;
 }
 
 nav a.disabled {

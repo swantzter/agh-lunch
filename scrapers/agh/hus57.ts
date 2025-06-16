@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, type RestaurantInfo, getUserAgent, savePdfImg, type MenuFile } from '../helpers'
+import { DataError, FetchError, type RestaurantInfo, getUserAgent, savePdfImg, type MenuFile } from '../../helpers.js'
 import { fetch } from 'undici'
 import * as path from 'node:path'
 
@@ -40,6 +40,6 @@ export default async function scrape (): Promise<MenuFile[]> {
 
   return pages.map(p => ({
     type: 'image',
-    src: `/${path.relative(path.resolve(__dirname, '../_site'), p.path)}`,
+    src: `/${path.relative(path.resolve(import.meta.dirname, '../_site'), p.path)}`,
   }))
 }

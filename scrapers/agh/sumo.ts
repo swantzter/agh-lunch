@@ -1,4 +1,4 @@
-import { type RestaurantInfo } from '../helpers'
+import { type RestaurantInfo } from '../../helpers.js'
 
 export const info: RestaurantInfo = { id: 'sumo', name: 'Sumo' }
 

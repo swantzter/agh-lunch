@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../helpers'
+import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../../helpers.js'
 import { fetch } from 'undici'
 
 export const info: RestaurantInfo = { id: 'bryggan', name: 'Bryggan Kök & Bar', autoplayDuration: 10_000 }

@@ -1,11 +1,11 @@
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, type RestaurantInfo, getUserAgent, saveHtml, type MenuFile } from '../helpers'
+import { DataError, FetchError, getUserAgent, MenuFile, saveHtml, type RestaurantInfo } from '../../helpers.js'
 import { fetch } from 'undici'
 
-export const info: RestaurantInfo = { id: 'midgarden', name: 'Midgårdens Värdshus', autoplayDuration: 10_000 }
+export const info: RestaurantInfo = { id: 'filthy-fisherman', name: 'Filthy Fisherman' }
 
 export default async function scrape (): Promise<MenuFile[]> {
-  const baseUrl = new URL('https://www.midgarden.se/meny')
+  const baseUrl = 'https://thefilthyfisherman.se/lunch/'
   const res = await fetch(baseUrl, {
     headers: {
       accept: 'text/html',
@@ -18,10 +18,13 @@ export default async function scrape (): Promise<MenuFile[]> {
   const body = await res.text()
   const $ = cheerio.load(body)
 
-  const menu = $('article .content').html()
+  const menu = $('h3:contains(The Filthy Lunch)').parent().html()
   if (menu == null) throw new DataError('Could not find menu', res.url, body)
 
-  await saveHtml(menu, 'midgarden.html')
+  await saveHtml(menu, `${info.id}.html`)
 
-  return [{ type: 'html', src: '/assets/midgarden.html' }]
+  return [{
+    type: 'html',
+    src: `/assets/${info.id}.html`,
+  }]
 }

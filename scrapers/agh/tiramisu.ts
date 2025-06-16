@@ -1,11 +1,11 @@
+import { DataError, FetchError, getUserAgent, MenuFile, saveHtml, type RestaurantInfo } from '../../helpers.js'
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, type RestaurantInfo, getUserAgent, saveHtml, type MenuFile } from '../helpers'
 import { fetch } from 'undici'
 
-export const info: RestaurantInfo = { id: 'nimt', name: 'Restaurang Nimt', autoplayDuration: 10_000 }
+export const info: RestaurantInfo = { id: 'tiramisu', name: 'Tiramisu', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
-  const baseUrl = new URL('https://www.hotelvalhallpark.se/hotellrestaurang/')
+  const baseUrl = new URL('https://tiramisuu.se/')
   const res = await fetch(baseUrl, {
     headers: {
       accept: 'text/html',
@@ -18,10 +18,10 @@ export default async function scrape (): Promise<MenuFile[]> {
   const body = await res.text()
   const $ = cheerio.load(body)
 
-  const menu = $('h4:contains(Lunchmat)').parent().parent().html()
+  const menu = $('.et_pb_section_1').html()
   if (menu == null) throw new DataError('Could not find menu element', res.url, body)
 
-  await saveHtml(menu, 'nimt.html')
+  await saveHtml(menu, 'tiramisu.html')
 
-  return [{ type: 'html', src: '/assets/nimt.html' }]
+  return [{ type: 'html', src: '/assets/tiramisu.html' }]
 }

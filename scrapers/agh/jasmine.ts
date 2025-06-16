@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, getUserAgent, saveHtml, type RestaurantInfo, type MenuFile } from '../helpers'
+import { DataError, FetchError, getUserAgent, saveHtml, type RestaurantInfo, type MenuFile } from '../../helpers.js'
 
 const style = `<style>
 p, h1, h2, h3, h4, h5 {

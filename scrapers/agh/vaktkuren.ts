@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { DataError, FetchError, getUserAgent, saveHtml, type RestaurantInfo, type MenuFile } from '../helpers'
+import { DataError, FetchError, getUserAgent, saveHtml, type RestaurantInfo, type MenuFile } from '../../helpers.js'
 
 export const info: RestaurantInfo = { id: 'vaktkuren', name: 'Vaktkurens Mos', autoplayDuration: 10_000 }
 

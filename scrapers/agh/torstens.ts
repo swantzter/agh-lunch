@@ -1,4 +1,4 @@
-import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../helpers'
+import { FetchError, type RestaurantInfo, getUserAgent, saveHtml, DataError, type MenuFile } from '../../helpers.js'
 import { fetch } from 'undici'
 
 export const info: RestaurantInfo = { id: 'torstens', name: 'Torstens Smakar Mera', autoplayDuration: 20_000 }

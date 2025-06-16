@@ -7,6 +7,9 @@ const fetchTime = 1000 * 60 * 10 // 10 min
 /**
  * @typedef {{ id: string, name: string, updatedAt?: string, autoplayDuration?: number, files?: Array<{ type: 'image' | 'html', src: string }> }} RestaurantInfo
  */
+/**
+ * @typedef {{ id: string, name: string }} CityInfo
+ */
 
 createApp({
   /** @type {number} */
@@ -26,30 +29,56 @@ createApp({
   /** @type {RestaurantInfo[]} */
   restaurants: [],
 
+  /** @type {string} */
+  currentCity: 'agh',
+  /** @type {CityInfo[]} */
+  availableCities: [
+    {
+      id: 'agh',
+      name: 'Ängelholm',
+    },
+    {
+      id: 'hbg',
+      name: 'Helsingborg',
+    }
+  ],
+
   /** @returns {RestaurantInfo[]} */
-  get menuRestaurants () {
+  get menuRestaurants() {
     return this.restaurants.filter(r => r.files != null && r.files.length > 0)
   },
   /** @returns {RestaurantInfo[]} */
-  get listRestaurants () {
+  get listRestaurants() {
     return this.restaurants.filter(r => r.files == null || r.files.length === 0)
   },
   /** @returns {RestaurantInfo} */
-  get currentRestaurant () {
+  get currentRestaurant() {
     return this.restaurants.find(r => r.id === this.currentRestaurantId)
   },
-  get switchProgress () {
+  get switchProgress() {
     // I want it to fallback if the value is 0
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return `${Math.round((1 - (Math.abs(this.now - this.lastChange) / (this.currentRestaurant?.autoplayDuration || defaultAutoplayDuration))) * 100)}%`
   },
 
-  mounted () {
+  mounted() {
+    // autodetect city
+    const sp = new URLSearchParams(window.location.search)
+    if (sp.has('city') && this.availableCities.some(c => c.id === sp.get('city'))) {
+      this.currentCity = sp.get('city')
+    } else {
+      if (window.location.hostname.includes('engelholm.menu')) {
+        this.currentCity = 'agh'
+      } else if (window.location.hostname.includes('helsingborg.menu')) {
+        this.currentCity = 'hbg'
+      }
+    }
+
     this.fetchRestaurants()
     this.startTimers()
   },
 
-  startTimers () {
+  startTimers() {
     setInterval(() => {
       // This makes displayed dates and such update
       this.now = Date.now()
@@ -76,14 +105,14 @@ createApp({
       }
     }, 1_000)
   },
-  async fetchRestaurants () {
+  async fetchRestaurants() {
     if (this.ongoingFetch != null) return
     try {
-      this.ongoingFetch = fetch('/restaurants.json', { headers: { accept: 'application/json' } })
+      this.ongoingFetch = fetch(`/restaurants-${this.currentCity}.json`, { headers: { accept: 'application/json' } })
       const res = await this.ongoingFetch
       if (res.ok !== true) console.error('Failed to fetch restaurants manifest')
       const restaurants = await res.json()
-      restaurants.sort((a, b) => a.name.localeCompare(b.name))
+      if (restaurants.length > 1) restaurants.sort((a, b) => a.name?.localeCompare(b.name))
 
       this.restaurants = restaurants
       this.lastFetch = Date.now()
@@ -95,7 +124,9 @@ createApp({
       this.ongoingFetch = null
     }
   },
-  nextRestaurant () {
+  nextRestaurant() {
+    if (this.menuRestaurants.length < 2) return
+
     const currIdx = this.menuRestaurants.findIndex(r => r.id === this.currentRestaurantId)
     if (currIdx === -1 || currIdx >= this.menuRestaurants.length - 1) {
       this.currentRestaurantId = this.menuRestaurants[0].id
@@ -109,14 +140,22 @@ createApp({
       inline: 'center'
     })
   },
-  toggleAutoPlay () {
+  toggleAutoPlay() {
     if (this.autoPlay === true) this.nextRestaurant()
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     this.autoPlay = !this.autoPlay
   },
 
+  /** @param {string} city */
+  setCity(city) {
+    if (this.currentCity === city) return
+    this.currentCity = city
+    window.history.pushState({}, '', `/?city=${city}`)
+    void this.fetchRestaurants()
+  },
+
   /** @param {string} date */
-  formatDate (date) {
+  formatDate(date) {
     let diff = (new Date(date).getTime() - this.now) / 1000
     if (Math.abs(diff) < 60) return dateFormatter.format(Math.round(diff), 'second')
     diff = diff / 60

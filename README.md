@@ -1,4 +1,4 @@
-# Lunch i Ängelholm
+# Lunch i Nordvästra Skåne
 
 Well, this is a site that scrapes some restaurant websites and compiles their
 lunch menus in one place.

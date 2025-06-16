@@ -1,4 +1,4 @@
-import { DataError, FetchError, type RestaurantInfo, getUserAgent, saveFile, type MenuFile } from '../helpers'
+import { DataError, FetchError, type RestaurantInfo, getUserAgent, saveFile, type MenuFile } from '../../helpers.js'
 import { fetch } from 'undici'
 
 interface LinkedImage {

@@ -1,7 +1,8 @@
 {
   "name": "agh-lunch",
   "version": "1.0.0",
-  "description": "Gather Ängelholm Lunch Menus",
+  "description": "Gather Lunch Menus",
+  "type": "module",
   "scripts": {
     "scrape": "tsx scrape.ts",
     "lint": "eslint",
@@ -11,19 +12,18 @@
   "author": "Svante Bengtson <svante@swantzter.se>",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "@tsconfig/node20": "^20.1.2",
-    "@types/eslint__js": "^8.42.3",
-    "@types/node": "^20.11.28",
-    "eslint": "^9.9.0",
-    "neostandard": "^0.11.2",
-    "tsx": "^4.19.4",
-    "typescript": "5.3",
-    "typescript-eslint": "^8.1.0"
+    "@eslint/js": "^9.29.0",
+    "@tsconfig/node24": "^24.0.1",
+    "@types/node": "^24.0.3",
+    "eslint": "^9.29.0",
+    "neostandard": "^0.12.1",
+    "tsx": "^4.20.3",
+    "typescript": "5.8",
+    "typescript-eslint": "^8.34.0"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.12",
-    "pdf-to-png-converter": "^3.2.0",
-    "undici": "^6.21.2"
+    "cheerio": "^1.1.0",
+    "pdf-to-png-converter": "^3.6.5",
+    "undici": "^7.10.0"
   }
 }

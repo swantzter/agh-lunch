@@ -1,11 +1,11 @@
-import * as pkgJson from './package.json'
-import * as pkgLock from './package-lock.json'
+// import * as pkgJson from './package.json'
+// import * as pkgLock from './package-lock.json'
 import { type Response } from 'undici'
 import { createWriteStream } from 'node:fs'
 import * as path from 'node:path'
 import { finished } from 'node:stream/promises'
 import { Readable } from 'node:stream'
-import { writeFile } from 'node:fs/promises'
+import { writeFile, readFile } from 'node:fs/promises'
 import { pdfToPng } from 'pdf-to-png-converter'
 
 export interface MenuFile {
@@ -37,18 +37,20 @@ export class DataError extends Error {
   data: unknown
 
   constructor (message: string, url: string, data: unknown) {
-    super(`Got bad response when fetching ${url}`)
+    super(`Got bad data from ${url} (${message})`)
     this.name = 'DataError'
     this.data = data
   }
 }
 
+const pkgJson = await readFile(path.join(import.meta.dirname, 'package.json'), 'utf-8').then(JSON.parse) as Record<'name' | 'version', string>
+const pkgLock = await readFile(path.join(import.meta.dirname, 'package-lock.json'), 'utf-8').then(JSON.parse) as { packages: Record<string, { version: string }> }
 export function getUserAgent () {
   return `undici/${pkgLock.packages['node_modules/undici'].version} ${pkgJson.name}/${pkgJson.version} (lunch@swantzter.se)`
 }
 
 export async function saveFile (res: Response, name: string) {
-  const ws = createWriteStream(path.join(__dirname, '_site/assets', name), { flags: 'w' })
+  const ws = createWriteStream(path.join(import.meta.dirname, '_site/assets', name), { flags: 'w' })
   if (res.body == null) throw new TypeError('Body is missing from response')
   await finished(Readable.fromWeb(res.body).pipe(ws))
 }
@@ -72,5 +74,5 @@ const preamble = `<!DOCTYPE html>
 <body>`
 
 export async function saveHtml (html: string, name: string) {
-  await writeFile(path.join(__dirname, '_site/assets', name), `${preamble}${html}`, 'utf-8')
+  await writeFile(path.join(import.meta.dirname, '_site/assets', name), `${preamble}${html}`, 'utf-8')
 }
