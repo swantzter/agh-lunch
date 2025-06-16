@@ -43,8 +43,8 @@ export class DataError extends Error {
   }
 }
 
-const pkgJson = await readFile(path.join(import.meta.dirname, 'package.json'), 'utf-8').then(JSON.parse) as Record<'name' | 'version', string>
-const pkgLock = await readFile(path.join(import.meta.dirname, 'package-lock.json'), 'utf-8').then(JSON.parse) as { packages: Record<string, { version: string }> }
+const pkgJson = await readFile(path.join(import.meta.dirname, 'package.json'), 'utf-8').then(str => JSON.parse(str) as Record<'name' | 'version', string>)
+const pkgLock = await readFile(path.join(import.meta.dirname, 'package-lock.json'), 'utf-8').then(str => JSON.parse(str) as { packages: Record<string, { version: string }> })
 export function getUserAgent () {
   return `undici/${pkgLock.packages['node_modules/undici'].version} ${pkgJson.name}/${pkgJson.version} (lunch@swantzter.se)`
 }
@@ -56,10 +56,10 @@ export async function saveFile (res: Response, name: string) {
 }
 
 export async function savePdfImg (res: Response, name: string) {
-  const buf = Buffer.from(await res.arrayBuffer())
+  const buf = await res.arrayBuffer()
   const pages = await pdfToPng(buf, {
     outputFolder: '_site/assets',
-    outputFileMask: name,
+    outputFileMaskFunc: () => name,
   })
   return pages
 }
