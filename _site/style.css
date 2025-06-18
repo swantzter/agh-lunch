@@ -118,14 +118,24 @@ main iframe {
     border-top: 1px solid gray;
   }
 
-  nav a {
+  nav a, nav select {
     min-width: 25ch;
     width: max-content;
     border-bottom: none;
   }
 
-  nav a:not(:last-child) {
+  nav .spacer {
+    display: none;
+  }
+
+
+  nav :where(a, select):not(:last-child) {
     border-right: 1px solid gray;
+  }
+
+  nav .spacer + a, nav .spacer + select {
+    border-top: unset;
+    margin-top: unset;
   }
 
   main > div {
