@@ -39,8 +39,8 @@
         :key="restaurant.id"
         :id="`a-${restaurant.id}`"
         :class="{ selected: currentRestaurantId === restaurant.id }"
-        @click="currentRestaurantId = restaurant.id; autoPlay = false"
-      >
+        @click="currentRestaurantId = restaurant.id; autoPlay = false; lastChange = Date.now()"
+        >
         <span>{{ restaurant.name }}</span>
         <time :datetime="restaurant.updatedAt">{{ formatDate(restaurant.updatedAt) }}</time>
       </a>

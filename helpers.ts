@@ -59,7 +59,7 @@ export async function savePdfImg (res: Response, name: string) {
   const buf = await res.arrayBuffer()
   const pages = await pdfToPng(buf, {
     outputFolder: '_site/assets',
-    outputFileMaskFunc: () => name,
+    outputFileMaskFunc: (page) => `${name}-${page}.png`,
   })
   return pages
 }
