@@ -31,7 +31,7 @@ const style = `<style>
 export const info: RestaurantInfo = { id: 'banhmiking', name: 'Banh Mi King', autoplayDuration: 10_000 }
 
 export default async function scrape (): Promise<MenuFile[]> {
-  const baseUrl = 'https://www.banhmiking.se/?page_id=1452'
+  const baseUrl = 'https://www.banhmiking.se/daily-lunch-specials-vietnamese-street-food-in-helsingborg-angelholm/'
   const res = await fetch(baseUrl, {
     headers: {
       accept: 'text/html',

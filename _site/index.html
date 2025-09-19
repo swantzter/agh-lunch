@@ -49,13 +49,17 @@
         v-for="restaurant of listRestaurants"
         :key="restaurant.id"
         :id="`a-${restaurant.id}`"
-        class="disabled"
-        aria-disabled="true"
-      >
-        <span>{{ restaurant.name }}</span>
-        <span class="small">meny saknas</span>
-      </a>
 
+        :href="restaurant.href ?? ''"
+        :target="restaurant.href == null ? '_self' : '_blank'"
+        rel="nofollow noopener"
+
+        :class="{'disabled': restaurant.href == null}"
+        :aria-disabled="restaurant.href == null ? 'true' : 'false'"
+      >
+        <span>{{ restaurant.name }} {{ restaurant.href == null ? '' : '🔗' }}</span>
+        <span class="small">{{ restaurant.href == null ? 'meny saknas' : 'extern meny' }}</span>
+      </a>
       <div class="spacer"></div>
 
       <select :value="currentCity" @change="setCity($event.target.value)">

@@ -1,6 +1,6 @@
 import { type RestaurantInfo } from '../../helpers.js'
 
-export const info: RestaurantInfo = { id: 'sumo', name: 'Sumo' }
+export const info: RestaurantInfo = { id: 'sumo', name: 'Sumo', href: 'https://www.sumosushi.se/menysumosushi' }
 
 /**
  * POST /graphql
