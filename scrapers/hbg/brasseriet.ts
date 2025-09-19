@@ -18,7 +18,7 @@ export default async function scrape (): Promise<MenuFile[]> {
   const body = await res.text()
   const $ = cheerio.load(body)
 
-  const menu = $('main [data-testid="richTextElement"]').html()
+  const menu = $('main [data-testid="richTextElement"]:nth(1)').html()
   if (menu == null) throw new DataError('Could not find menu', res.url, body)
 
   await saveHtml(menu, `${info.id}.html`)

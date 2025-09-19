@@ -1,6 +1,6 @@
 import { type RestaurantInfo } from '../../helpers.js'
 
-export const info: RestaurantInfo = { id: 'scandic-oceanhamnen', name: 'Scandic Oceanhamnen' }
+export const info: RestaurantInfo = { id: 'scandic-oceanhamnen', name: 'Scandic Oceanhamnen', href: 'https://www.scandichotels.com/sv/hotell/scandic-oceanhamnen/restaurang' }
 
 // export default async function scrape (): Promise<MenuFile[]> {
 //   const baseUrl = 'https://www.scandichotels.com/sv/hotell/scandic-oceanhamnen/restaurang'

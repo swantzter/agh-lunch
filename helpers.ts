@@ -16,6 +16,7 @@ export interface MenuFile {
 export interface RestaurantInfo {
   id: string
   name: string
+  href?: string
   updatedAt?: Date
   files?: MenuFile[]
   autoplayDuration?: number
