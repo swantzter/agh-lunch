@@ -13,8 +13,23 @@ const style = `<style>
 </style>`
 
 export default async function scrape (): Promise<MenuFile[]> {
-  const baseUrl = 'https://bordsbokaren.se/api/meny-lunch-thai-corner.php?meny_id=50&i=51&k=thc84nbb'
-  const res = await fetch(baseUrl, {
+  const baseUrl = 'https://thaicorner.se/meny.php?menu_id=11'
+  const landingRes = await fetch(baseUrl, {
+    headers: {
+      accept: 'text/html',
+      'cache-control': 'no-cache',
+      'user-agent': getUserAgent(),
+    },
+  })
+  if (!landingRes.ok) throw new FetchError(landingRes.url, landingRes.status, await landingRes.text())
+
+  const landingBody = await landingRes.text()
+  const $1 = cheerio.load(landingBody)
+
+  const menuUrl = $1('script[src^="https://bordsbokaren.se/api/meny-lunch-thai-corner.php"]').attr('src')
+  if (menuUrl == null) throw new DataError('Could not find link to menu', landingRes.url, landingBody)
+
+  const res = await fetch(menuUrl, {
     headers: {
       accept: 'text/html',
       'cache-control': 'no-cache',
