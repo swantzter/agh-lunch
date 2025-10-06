@@ -5,7 +5,7 @@ const defaultAutoplayDuration = 20_000
 const fetchTime = 1000 * 60 * 10 // 10 min
 
 /**
- * @typedef {{ id: string, name: string, updatedAt?: string, autoplayDuration?: number, files?: Array<{ type: 'image' | 'html', src: string }> }} RestaurantInfo
+ * @typedef {{ id: string, name: string, updatedAt?: string, autoplayDuration?: number, files?: Array<{ type: 'image' | 'html', src: string }>, href?: string }} RestaurantInfo
  */
 /**
  * @typedef {{ id: string, name: string }} CityInfo
@@ -48,8 +48,12 @@ createApp({
     return this.restaurants.filter(r => r.files != null && r.files.length > 0)
   },
   /** @returns {RestaurantInfo[]} */
+  get externalRestaurants() {
+    return this.restaurants.filter(r => r.href != null && (r.files == null || r.files.length === 0))
+  },
+  /** @returns {RestaurantInfo[]} */
   get listRestaurants() {
-    return this.restaurants.filter(r => r.files == null || r.files.length === 0)
+    return this.restaurants.filter(r => r.href == null && (r.files == null || r.files.length === 0))
   },
   /** @returns {RestaurantInfo} */
   get currentRestaurant() {

@@ -6,7 +6,7 @@ export const info: RestaurantInfo = { id: 'hus57', name: 'Hus 57', autoplayDurat
 
 export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = 'https://www.hus57.se'
-  const res = await fetch(new URL('/sv/restaurang-bar/lunch', baseUrl), {
+  const res = await fetch(new URL('/sv/restaurang-bar/menyer', baseUrl), {
     headers: {
       accept: 'text/html',
       // IIS servers' deflate responses crashes node zlib

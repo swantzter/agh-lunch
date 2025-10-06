@@ -13,21 +13,36 @@ const style = `<style>
 </style>`
 
 export default async function scrape (): Promise<MenuFile[]> {
-  const baseUrl = 'https://thaicorner.se/meny.php?menu_id=11'
-  const landingRes = await fetch(baseUrl, {
+  const startingUrl = 'https://thaicorner.se/'
+  const startingPageRes = await fetch(startingUrl, {
     headers: {
       accept: 'text/html',
       'cache-control': 'no-cache',
       'user-agent': getUserAgent(),
     },
   })
-  if (!landingRes.ok) throw new FetchError(landingRes.url, landingRes.status, await landingRes.text())
+  if (!startingPageRes.ok) throw new FetchError(startingPageRes.url, startingPageRes.status, await startingPageRes.text())
 
-  const landingBody = await landingRes.text()
+  const startingBody = await startingPageRes.text()
+  const $0 = cheerio.load(startingBody)
+
+  const menuPageUrl = $0('section#banner_hero a[href*="meny.php"]').attr('href')
+  if (menuPageUrl == null) throw new DataError('Could not find link to menu landing page', startingPageRes.url, startingBody)
+
+  const menuPageRes = await fetch(new URL(menuPageUrl, startingUrl), {
+    headers: {
+      accept: 'text/html',
+      'cache-control': 'no-cache',
+      'user-agent': getUserAgent(),
+    },
+  })
+  if (!menuPageRes.ok) throw new FetchError(menuPageRes.url, menuPageRes.status, await menuPageRes.text())
+
+  const landingBody = await menuPageRes.text()
   const $1 = cheerio.load(landingBody)
 
   const menuUrl = $1('script[src^="https://bordsbokaren.se/api/meny-lunch-thai-corner.php"]').attr('src')
-  if (menuUrl == null) throw new DataError('Could not find link to menu', landingRes.url, landingBody)
+  if (menuUrl == null) throw new DataError('Could not find link to menu', menuPageRes.url, landingBody)
 
   const res = await fetch(menuUrl, {
     headers: {
