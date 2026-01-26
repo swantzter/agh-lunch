@@ -4,7 +4,7 @@ import { fetch } from 'undici'
 
 export const info: RestaurantInfo = { id: 'klitterhus', name: 'Klitterhus', autoplayDuration: 10_000 }
 
-export default async function scrape(): Promise<MenuFile[]> {
+export default async function scrape (): Promise<MenuFile[]> {
   const baseUrl = new URL('https://www.klitterhus.nu/resturangen')
   const res = await fetch(baseUrl, {
     headers: {
