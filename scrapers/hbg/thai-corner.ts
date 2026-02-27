@@ -41,7 +41,7 @@ export default async function scrape (): Promise<MenuFile[]> {
   const landingBody = await menuPageRes.text()
   const $1 = cheerio.load(landingBody)
 
-  const menuUrl = $1('script[src^="https://bordsbokaren.se/api/meny-lunch-thai-corner.php"]').attr('src')
+  const menuUrl = $1('script[src^="https://bordsbokaren.se/inc/integrationer/meny-lunch-thai-corner.php"]').attr('src')
   if (menuUrl == null) throw new DataError('Could not find link to menu', menuPageRes.url, landingBody)
 
   const res = await fetch(menuUrl, {
