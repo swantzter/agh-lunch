@@ -4,7 +4,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron:  '0 8,9,10 * * 1-5'
+    - cron:  '0 7,8,9,10 * * 1-5'
 
 defaults:
   run:
@@ -23,9 +23,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Cache scrapes in case of temporary failures
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           key: menus-${{ github.run_id }}
           restore-keys: |
@@ -35,14 +35,14 @@ jobs:
             _site/assets
             _site/restaurants.json
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: npm
       - run: npm ci --prefer-offline
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v6
         with:
           static_site_generator: custom
       - run: npm run scrape
@@ -50,7 +50,7 @@ jobs:
           SHA="$(git rev-parse --short HEAD)"
           sed -i "s/version: dev/version: $SHA/g" _site/index.html
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
