@@ -54,7 +54,7 @@ export default async function scrape (): Promise<MenuFile[]> {
   if (!res.ok) throw new FetchError(res.url, res.status, await res.text())
 
   const body = await res.text()
-  const program = acorn.parse(String(body), { ecmaVersion: 'latest', sourceType: 'script' })
+  const program = acorn.parse(body, { ecmaVersion: 'latest', sourceType: 'script' })
 
   const ifStatement = program.body.findLast(node => node.type === 'IfStatement')
   const ifStatementBody = ifStatement?.consequent.type === 'BlockStatement' ? ifStatement.consequent.body : null
