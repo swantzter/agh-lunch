@@ -58,10 +58,16 @@ export async function saveFile (res: Response, name: string) {
 
 export async function savePdfImg (res: Response, name: string) {
   const buf = await res.arrayBuffer()
+  // pdf-to-png-converter refuses to overwrite existing files, and we restore
+  // previous scrapes from cache, so render in memory and write them ourselves
   const pages = await pdfToPng(buf, {
-    outputFolder: '_site/assets',
     outputFileMaskFunc: (page) => `${name}-${page}.png`,
+    returnPageContent: true,
   })
+  for (const page of pages) {
+    if (page.content == null) throw new TypeError(`Page ${page.pageNumber} of ${name} has no content`)
+    await writeFile(path.join(import.meta.dirname, '_site/assets', page.name), page.content)
+  }
   return pages
 }
 
